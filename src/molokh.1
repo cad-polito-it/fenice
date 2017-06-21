@@ -1,0 +1,78 @@
+.TH MOLOKH 1 "3.0" "Giovanni Squillero"
+.SH NAME
+molokh, Molokh \- yet another fault simulator
+.SH SYNOPSIS
+.RI "Molokh [-" ekcCS "] "
+.I circuit
+.I fault-list 
+.I test-pattern 
+.SH DESCRIPTION
+.I Molokh
+is an event-driven, parallel, 2-value logic fault simulator for synchronous
+sequential circuits. 
+.PP
+.I Molokh
+is vaguely based on the 
+.I PROOFS
+algorithm, as it was described by Thomas  M.  Niermann,  Wu-Tung
+Cheng  and  Janak H. Patel in 1992.
+.SH ARGUMENTS
+.IP circuit
+The first argument is the circuit path name; the only currently
+supported format is
+.I edf.
+(eg. /circuits/iscas/s27.edf)
+.IP fault-list
+The second argument is the fault-list path name;
+.I Molokh
+supports three formats:
+.RS
+.IP fau:
+.RI "almost compatible with " sunrise;
+.IP olf:
+.RI "the format used by the earlier versions of " Molokh " and " PRepSim
+(included for compatibility);
+.IP nfau:
+.RI "a format similar to " olf 
+but with some information about the size of uncollapsed fault-list.
+.RE
+.IP test-pattern
+The usual ascii test pattern. Reset signals are indicated with lines
+containing '#'.  A reset is always simulated at the beginning of the
+test-pattern
+.SH OPTIONS
+.IP -b NUM
+Preallocate NUM buffers for storing flip flops values; default NUM is zero. 
+.I Molokh
+can dinamically allocate all needed buffer, but a good value
+can reduce simulation time a bit.
+.IP -g
+Skip garbage collect at the end of simulation.
+.IP -k
+.RI "Don't kill reset using " CircuitMod_RemoveGate "(3),"
+just lower the number of pi assuming the last element in pi array is
+the clock.  This option can reduce initialization time, but don't work
+on all circuit. See libcircuit(3) for details.
+.IP "-c"
+Show coverage info in a format compatible with earlier versions of
+Molokh and PRepSim.
+.IP "-C"
+Show coverage info in a hybrid format, useful just for feeding dusk(1).
+.IP "-S"
+Run almost silently (ie. don't display circuit, fault list and
+test pattern statistics).
+.SH AUTHOR
+Giovanni Squillero
+.I <squillero@polito.it         >
+.SH COPYRIGHT NOTICE
+Permission is granted to anyone to use this software for any purpose
+on any computer system, and to alter and redistribute the same.
+.PP
+Because this software is not copyrighted and it is free of charge,
+there is
+.I absolutely no warranty  
+on it.  Thus the author is not responsible for the consequences of use
+of this software, no matter how awful, even if they arise from flaws
+in it.
+.SH BUGS
+The author has learned English reading bat-man comics.
