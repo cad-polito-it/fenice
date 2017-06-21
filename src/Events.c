@@ -1,6 +1,6 @@
 /*****************************************************************-*-c-*-*\
 *             *                                                           *
-*   #####     *  (c) Copyright 2010, Giovanni Squillero                   *
+*   #####     *  (c) Copyright 2000, Giovanni Squillero                   *
 *  ######     *  http://staff.polito.it/giovanni.squillero/               *
 *  ###   \    *  giovanni.squillero@polito.it                             *
 *   ##G  c\   *                                                           *
