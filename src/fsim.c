@@ -11,13 +11,17 @@
  * 
  * When       Who          What
  * 
- * 27-05-95   Fulvio       
+ * xx-xx-94   gs           Created
+ *
+ * 27-05-95   Fulvio       ?
  * 
  * xx-12-95   Alex         Added support for FF with Set and Preset 
  *                         signals: the reset state can be read from
  *                         a file. Modified gatto.c for allocation and
  *                         file reading, sub_64oo.c:mreset() to load
  *                         the reset state into FF
+ *
+ * 18-04-96   gs           Masked SwapData call, oh yeah!
  */
 
 #ifdef DEBUG
@@ -119,6 +123,7 @@ extern unsigned int *corr_f;
 unsigned int    my_events;
 
 /* i PROTOTIPI */
+int             SwapData(void);
 int             mGetPattern(char **s, unsigned long *pi);
 void            mreset(int id);
 void            mSchedule(int x);
@@ -132,6 +137,223 @@ int            *mModifiedFF(void);
 void            mLoadFlipFlop(unsigned int id);
 void            mStoreFlipFlop(int *Detected);
 /* void mVisit(unsigned int id); */
+
+/**************************************************************************
+NOME:           SwapData
+PARAMETRI:      -
+DESCRIZIONE:    Come detto la struttura dati DESCRIPTOR ritornata dalla
+    create() ci sta stretta. Allochiamo la nostra struttura MYDESCRIPTOR,
+    copiamo i dati e liberiamo la prima.
+***************************************************************************/
+int             SwapData(void)
+{
+    int             t, t2, j, i;
+    unsigned int    clock_descr;
+    int             found, good;
+    int             maxl;
+    extern char    *Context;
+
+    Context = "SwapData";
+
+    /* Allochiamo memoria per la struttura interna */
+    if ((MyDescr = malloc((n_descr + 2) * sizeof(MYDESCRIPTOR))) == NULL) {
+	WriteMessage(NOMEM);
+	return (1);
+    }
+    /* Copia copia */
+    for (j = t2 = t = 0; t < n_descr; ++t) {
+	MyDescr[t].level = descr[t].level;
+	MyDescr[t].type = descr[t].type;
+	MyDescr[t].attr = descr[t].attr;
+	if (MyDescr[t].attr == PI)
+	    MyDescr[t].type = WIRE;
+	MyDescr[t].fanin = descr[t].fanin;
+	MyDescr[t].fanout = descr[t].fanout;
+	MyDescr[t].from = descr[t].from;
+	MyDescr[t].to = descr[t].to;
+	MyDescr[t].GoodValue = 127;
+	MyDescr[t].CurrentValue = 127;
+	MyDescr[t].GroupId = -1;
+	MyDescr[t].ErrorId = -1;
+    }
+    /* Inizializziamo il descrittore DUMMY (non c'era prima, lo creiamo
+     * noi).Inizializzo il puntatore al clock (tanto poi lo calcola giusto). */
+    clock_descr = n_descr + 1;
+    MyDescr[n_descr + 1].fanin = 0;
+    MyDescr[n_descr + 1].fanout = 0;
+    MyDescr[n_descr + 1].level = 0;
+    MyDescr[n_descr + 1].type = DUMMY;
+
+    /* Un po' di valori di default (utili x il debugging) */
+    MyDescr[n_descr].GoodValue = 127;
+    MyDescr[n_descr].CurrentValue = 127;
+    MyDescr[n_descr].ErrorId = -1;
+    MyDescr[n_descr].GroupId = -1;
+    MyDescr[n_descr + 1].GoodValue = 127;
+    MyDescr[n_descr + 1].CurrentValue = 127;
+    MyDescr[n_descr + 1].ErrorId = -1;
+    MyDescr[n_descr + 1].GroupId = -1;
+
+    /* Contiamo i Flip Flop */
+    for (num_ff = t = 0; t < n_descr; ++t)
+	if (MyDescr[t].type == FF)
+	    num_ff++;
+    /* e allochiamo l'array */
+    if ((ff_array = (unsigned int *) malloc((num_ff + 1) * sizeof(unsigned int))) == NULL) {
+	WriteMessage(NOMEM);
+	return (1);
+    }
+    /* i primary inputs e i primary outputs */
+    if ((po_array = (unsigned int *) malloc(n_po * sizeof(unsigned int))) == NULL) {
+	WriteMessage(NOMEM);
+	return (1);
+    }
+    if ((pi_array = (unsigned int *) malloc(n_pi * sizeof(unsigned int))) == NULL) {
+	WriteMessage(NOMEM);
+	return (1);
+    }
+    if ((lat_array = (unsigned int *) malloc(n_descr * sizeof(unsigned int))) == NULL) {
+	WriteMessage(NOMEM);
+	return (1);
+    }
+    /* Adesso cerchiamo il descrittore corrispondente al CLOCK */
+    for (j = 0; j < n_descr; j++)
+	if (MyDescr[j].type == FF) {
+	    clock_descr = MyDescr[j].from[1];
+	    break;
+	}
+    n_pi--;			/* per tener conto del clock */
+    /* Possiamo scrivere i PI */
+    for (j = i = 0; i < n_descr; ++i)
+	if ((MyDescr[i].attr == PI) && (i != clock_descr))
+	    pi_array[j++] = i;
+    /* E i PO */
+    for (j = i = 0; i < n_descr; ++i)
+	if (MyDescr[i].attr == PO) {
+	    po_array[j++] = i;
+	}
+    /* Last but not least i FF */
+    for (j = i = 0; i < n_descr; ++i)
+	if (MyDescr[i].type == FF) {
+	    /* printf("ff[%d]:%d\n",j,i); */
+	    ff_array[j++] = i;
+	    MyDescr[i].fanin = 1;
+	    MyDescr[MyDescr[i].from[1]].type = CLOCK;
+	    MyDescr[MyDescr[i].from[1]].level = 0;
+	}
+    for (i = 0; i < n_pi; i++)
+	lat_array[pi_array[i]] = i;
+
+    /* Buttiamo via i vecchi dati */
+    /* free(descr); (!)gs040396 */
+
+    /* Un po' di controlli... */
+
+#ifdef DEBUG
+    for (good = 1, t = 0; t < n_descr; ++t)
+	if (MyDescr[t].fanin > MAXIMUM_FANIN)
+	    good = 0;
+    if (!good) {
+	printf("\n");
+	WriteMessage(FANIN);
+    }
+#endif
+
+    /* Controlliamo che a tutti i from[] corrisponda un to[] */
+    good = 1;
+    for (t = 0; t < n_descr; ++t) {
+	for (t2 = 0; t2 < MyDescr[t].fanin; ++t2) {
+	    for (found = 0, i = 0; i < MyDescr[MyDescr[t].from[t2]].fanout; ++i) {
+		if (MyDescr[MyDescr[t].from[t2]].to[i] == t) {
+		    found = 1;
+		}
+	    }
+	    if (!found)
+		good = 0;
+	}
+    }
+    /* Controlliamo che a tutti i to[] corrisponda un from[] */
+    for (t = 0; t < n_descr; ++t) {
+	if (MyDescr[t].type != CLOCK) {
+	    for (t2 = 0; t2 < MyDescr[t].fanout; ++t2) {
+		for (found = 0, i = 0; i < MyDescr[MyDescr[t].to[t2]].fanin; ++i) {
+		    if (MyDescr[MyDescr[t].to[t2]].from[i] == t) {
+			found = 1;
+		    }
+		}
+		if (!found)
+		    good = 0;
+	    }
+	}
+    }
+    /* Controlliamo che i livelli siano coerenti */
+    for (t = 0; t < n_descr; ++t) {
+	for (t2 = 0; t2 < MyDescr[t].fanin; ++t2)
+	    if (MyDescr[t].level <= MyDescr[MyDescr[t].from[t2]].level && MyDescr[t].type != FF)
+		good = 0;
+    }
+    for (t = 0; t < n_descr; ++t) {
+	for (t2 = 0; t2 < MyDescr[t].fanout; ++t2) {
+	    if (MyDescr[t].level >= MyDescr[MyDescr[t].to[t2]].level && MyDescr[MyDescr[t].to[t2]].type != FF) {
+		printf("\n%d %d;", t, t2);
+		printf(" ...... %d %d \n", MyDescr[t].level, MyDescr[MyDescr[t].to[t2]].level);
+		good = 0;
+	    }
+	}
+    }
+
+    if (!good) {
+	printf("\n");
+	WriteMessage(CONNECT);
+    }
+    /* Controlliamo che a tutti i descrittori siano di tipo noto */
+    for (good = 1, t = 0; t < n_descr; ++t)
+	if (MyDescr[t].type != AND && MyDescr[t].type != NAND && MyDescr[t].type != OR && MyDescr[t].type != NOR &&
+	    MyDescr[t].type != BUF && MyDescr[t].type != NOT && MyDescr[t].type != EXOR && MyDescr[t].type != EXNOR &&
+	    MyDescr[t].type != FF && MyDescr[t].type != WIRE && MyDescr[t].type != CLOCK)
+	    good = 0;
+
+    if (!good) {
+	printf("\n");
+	WriteMessage(UNDESCRIPTOR);
+	return (1);
+    }
+    for (t = 0; t < num_ff; ++t)
+	MyDescr[ff_array[t]].ErrorId = 0;
+    maxl = 0;
+    for (t = 0; t < num_ff; ++t) {
+	for (found = 0, t2 = ff_array[t]; MyDescr[t2].type == FF; t2 = MyDescr[t2].from[0]) {
+	    ++found;
+	    if (maxl < found)
+		maxl = found;
+	    if (MyDescr[t2].ErrorId < found)
+		MyDescr[t2].ErrorId = found;
+	}
+    }
+
+#ifdef DEBUG2
+    for (t = 0; t < num_ff; ++t)
+	if (MyDescr[ff_array[t]].ErrorId > 1)
+	    printf("%ld) %ld -> %ld\n", t, ff_array[t], MyDescr[ff_array[t]].ErrorId);
+#endif
+
+    t = 0;
+    for (j = maxl; j >= 0; --j) {
+	/* for(j=0; j<=maxl; ++j) { */
+	for (i = 0; i < n_descr; ++i) {
+	    if (MyDescr[i].type == FF && MyDescr[i].ErrorId == j) {
+		ff_array[t++] = i;
+	    }
+	}
+    }
+
+#ifdef DEBUG2
+    for (t = 0; t < num_ff; ++t)
+	printf("%ld) %ld -> %ld\n", t, ff_array[t], MyDescr[ff_array[t]].ErrorId);
+#endif
+
+    return (0);
+}
 
 /**************************************************************************
 NOME:        FSim() - Fault simulation
@@ -1412,6 +1634,10 @@ void            InitFSim(void)
 #ifdef CHECK
     int t;
 #endif
+    static int Swapped_p;
+
+    if(!Swapped_p)
+	Swapped_p=1, SwapData();
 
     /* Allochiamo tutto cio` che ci occorre */
     MMS_temp = 1.0 * num_fault * (num_ff + 1) * saved;
