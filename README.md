@@ -14,7 +14,7 @@ The first version dates back to 1994, the second, to 1996, while version 3 was c
 
 The code and all backups of an early version were mysteriously deleted from Politecnico's server, and I recovered spare fragments of the source from the different machines I worked on, hence the name *fenice* ([*phoenix*](https://en.wikipedia.org/wiki/Phoenix_(mythology))) — the library arose back from the ashes of its predecessor. The name *molokh* refers to [Moloch](https://en.wikipedia.org/wiki/Moloch), the Canaanite god usually associated with human sacrifices.
 
-**Notez bien**: The code was heavily tweaked for gcc 2.x on SPARC, and it won't probably compile anymore.
+**Notez bien**: The code was heavily tweaked for gcc 2.x on SPARC, and it won't probably compile anymore. You may also need [include.tar.gz](http://www.cad.polito.it/downloads/tools/tar/include.tar.gz) from [http://www.cad.polito.it/downloads/tools/](http://www.cad.polito.it/downloads/tools/tools.html).
 
 **Copyright © 2000 Giovanni Squillero. All rights reserved.**
 
