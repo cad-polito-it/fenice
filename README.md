@@ -1,7 +1,7 @@
 Fenice
 ======
 
-[![License: BSD-2](https://img.shields.io/badge/license-bsd-green.svg)](/LICENSE.md)
+[![License: MIT](https://img.shields.io/badge/license-mit-green.svg)](/LICENSE.md)
 ![Status: Obsolete](https://img.shields.io/badge/status-obsolete-red.svg)
 ![Language: C](https://img.shields.io/badge/language-C-blue.svg)
 ![Gate-level: edf](https://img.shields.io/badge/gate--level-edf-8877cc.svg)
@@ -18,4 +18,4 @@ The code and all backups of an early version were mysteriously deleted from Poli
 
 **Copyright © 2000 Giovanni Squillero. All rights reserved.**
 
-Redistribution and use in source and binary forms, with or without modification, are permitted under the terms of the [BSD 2-clause "Simplified" License](/LICENSE.md).
+Redistribution and use in source and binary forms, with or without modification, are permitted under the terms of the [MIT License](/LICENSE.md).
