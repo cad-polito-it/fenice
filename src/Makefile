@@ -74,3 +74,36 @@ realclean: clean
 	rm -f *.a create_edf/*.a create_fau/*.a
 
 # DEPS (via -MM)
+Buffers.o: Buffers.c Fenice.h Simulation.h Events.h Faults.h
+cinfo.o: cinfo.c
+CircMod.o: CircMod.c Fenice.h SharedVars.h
+Circuit.o: Circuit.c Check.h Fenice.h SharedVars.h Simulation.h Events.h \
+ DescrVal.h CircuitMod.h
+Compat.o: Compat.c Fenice.h
+Debug.o: Debug.c Fenice.h SharedVars.h Simulation.h Events.h DescrVal.h \
+ Faults.h
+Events.o: Events.c Fenice.h SharedVars.h Simulation.h Events.h DescrVal.h
+fau2nfau.o: fau2nfau.c
+FeniceVer.o: FeniceVer.c Fenice.h
+FSimulation.o: FSimulation.c Fenice.h SharedVars.h DescrVal.h Events.h \
+ Simulation.h Faults.h
+Get.o: Get.c Check.h Fenice.h SharedVars.h DescrVal.h Faults.h
+get_ff.o: get_ff.c
+get_pi.o: get_pi.c
+get_po.o: get_po.c
+gutils.o: gutils.c Fenice.h
+Memory.o: Memory.c macros.h Messages.h Memory.h
+Messages.o: Messages.c macros.h Messages.h
+Molokh.o: Molokh.c
+MyClock.o: MyClock.c
+ReachedStates.o: ReachedStates.c
+seq2com.o: seq2com.c
+Set.o: Set.c Fenice.h SharedVars.h Simulation.h Events.h DescrVal.h \
+ Faults.h
+SharedVars.o: SharedVars.c Fenice.h
+SimpleSimulator.o: SimpleSimulator.c
+Simulation.o: Simulation.c Fenice.h SharedVars.h DescrVal.h Events.h \
+ Simulation.h Faults.h
+StateExample.o: StateExample.c
+TransientFaults.o: TransientFaults.c Fenice.h SharedVars.h DescrVal.h \
+ Events.h Simulation.h Faults.h
