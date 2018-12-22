@@ -12,7 +12,7 @@ A customizable fault-simulation and gate-level editing library for sequential ci
 
 The first version dates back to 1994, the second, to 1996, while version 3 was coded in 2000. Fenice v3.65 includes limited support for transient faults and 3-values simulation. *Molokh* is a stand-alone fault simulator, in version 3 it became a mere example for using the library.
 
-The code and all backups of the simulator I was working were mysteriously deleted from Politecnico's server, and in 1996 I had to recover the spare fragments of the source from the different machines I worked on, hence the name *fenice* ([*phoenix*](https://en.wikipedia.org/wiki/Phoenix_(mythology))) — the library arose back from the ashes of its predecessor. The name *molokh* refers to [Moloch](https://en.wikipedia.org/wiki/Moloch), the Canaanite god usually associated with human sacrifices.
+The code and all backups of the simulator I was working on were mysteriously deleted from Politecnico's server, and in 1996 I had to recover the spare fragments of the source from the different machines I worked on, hence the name *fenice* ([*phoenix*](https://en.wikipedia.org/wiki/Phoenix_(mythology))) — the library arose back from the ashes of its predecessor. The name *molokh* refers to [Moloch](https://en.wikipedia.org/wiki/Moloch), the Canaanite god usually associated with human sacrifices.
 
 **Copyright © 2000 Giovanni Squillero. All rights reserved.**
 
