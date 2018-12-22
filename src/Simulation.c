@@ -1,14 +1,13 @@
 /*****************************************************************-*-c-*-*\
 *             *                                                           *
-*   #####     *  (c) Copyright 2000, Giovanni Squillero                   *
+*   #####     *  Copyright (c) 2000 Giovanni Squillero                    *
 *  ######     *  http://staff.polito.it/giovanni.squillero/               *
 *  ###   \    *  giovanni.squillero@polito.it                             *
 *   ##G  c\   *                                                           *
-*   #     _\  *  This code is licensed under a BSD 2-clause license       *
+*   #     _\  *  This code is licensed under a BSD license.               *
 *   |  _/     *  See <https://github.com/squillero/fenice> for details    *
 *             *                                                           *
 \*************************************************************************/
-
 
 #include <sys/times.h>
 #include "Fenice.h"
@@ -448,7 +447,7 @@ static void     RefSimulation(void)
 #ifdef VALUE_3
 		++DescrVal[event].Stats[value.B&0x1];
 #else
-		++DescrVal[event].Stats[!!value];
+		++DescrVal[event].Stats[value.A?1:0];
 #endif
 	    }
 	}
@@ -482,11 +481,11 @@ double          GetSimulationTime(void)
     long int        start = TimeStart.tms_utime + TimeStart.tms_stime;
     long int        end = TimeEnd.tms_utime + TimeEnd.tms_stime;
 
-#ifdef CLK_TCK
+#if defined(CLK_TCK)
     return ((double)(end - start)) / (double)CLK_TCK;
-#elif CLOCKS_PER_SEC
+#elif defined(CLOCKS_PER_SEC)
     return ((double)(end - start)) / (double)CLOCKS_PER_SEC;
-#elif HZ
+#elif defined(HZ)
     return ((double)(end - start)) / (double)HZ;
 #else
     return ((double)(end - start)) / 60.0;

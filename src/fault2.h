@@ -38,26 +38,26 @@ enum {
 /* fault descriptor */
 
 typedef struct fd {
-    int             descr;	/* descrittore del gate */
+    int descr;                  /* descrittore del gate */
 
-    int             from;	/* -1 : guasto sull'uscita 
-				 * #  : descrittore del gate padre */
+    int from;                   /* -1 : guasto sull'uscita 
+                                 * #  : descrittore del gate padre */
 
-    int             pin;	/* -1 : guasto sull'uscita
-				 * #  : numero del pin di ingresso */
+    int pin;                    /* -1 : guasto sull'uscita
+                                 * #  : numero del pin di ingresso */
 
-    int             val;	/* 0  : stuck at 0
-				 * -1 : stack at 1 */
+    int val;                    /* 0  : stuck at 0
+                                 * -1 : stack at 1 */
 
-    int             size;	/* #  : numero di guasti equivalenti */
+    int size;                   /* #  : numero di guasti equivalenti */
 
-    int             status;	/* UNTESTABLE, UNDETECTED or DETECTED */
+    int status;                 /* UNTESTABLE, UNDETECTED or DETECTED */
 
-    int 	    type;	/* tipo del guasto: SAx, SEU... */
-    int 	    activation;	/* numero della riga in cui il guasto e` attivo
-				 * == 0 se permanent stuck-at */
+    int type;                   /* tipo del guasto: SAx, SEU... */
+    int activation;             /* numero della riga in cui il guasto e` attivo
+                                 * == 0 se permanent stuck-at */
 } FAULT;
 
 /* function prototype */
-int             create_fau(char *);
-void            write_faultlist(char *);
+int create_fau(char *);
+void write_faultlist(char *);

@@ -1,14 +1,13 @@
 /*****************************************************************-*-c-*-*\
 *             *                                                           *
-*   #####     *  (c) Copyright 2000, Giovanni Squillero                   *
+*   #####     *  Copyright (c) 2000 Giovanni Squillero                    *
 *  ######     *  http://staff.polito.it/giovanni.squillero/               *
 *  ###   \    *  giovanni.squillero@polito.it                             *
 *   ##G  c\   *                                                           *
-*   #     _\  *  This code is licensed under a BSD 2-clause license       *
+*   #     _\  *  This code is licensed under a BSD license.               *
 *   |  _/     *  See <https://github.com/squillero/fenice> for details    *
 *             *                                                           *
 \*************************************************************************/
-
 
 char           *VERSION = "3.6";
 
@@ -210,22 +209,6 @@ int             main(int argc, char *argv[])
 	Print(stderr,
 	      "\nPlease, send comments, bug reports and constructive criticisms to the author:\n"
 	      "%BGiovanni Squillero%N <%Usquillero%N@%Upolito%N.%Uit%N>\n\n");
-	Print(stderr, "\n%BNOTEZ BIEN:%N\n");
-	Print(stderr, "\n    Fenice and the Molokh are provided 'as-is', without any express or "
-	      "implied warranty. In no event will Giovanni Squillero or any member of the CAD Group be held "
-	      "liable for any damages arising from the use of this software.\n");
-	Print(stderr, "\n\n    Permission is granted to anyone to use Fenice and Molokh code for any purpose, "
-	      "including commercial applications, and to alter it and redistribute it "
-	      "freely, subject to the following restrictions:\n");
-
-	Print(stderr, "\n\n 1. The origin of this software must not be misrepresented; you must not "
-	      "claim that you wrote the original software. If you use my code "
-	      "in a product, an acknowledgment in the product documentation would be "
-	      "appreciated but is not required.\n");
-	Print(stderr, "\n\n 2. Altered source versions must be plainly marked as such, and must not "
-	      "be misrepresented as being the original software.\n");
-	Print(stderr, "\n\n 3. This notice may not be removed or altered from any source "
-	      "distribution.\n\n");
 	exit(1);
     } else if (argc == 1) {
 	strcpy(circuit, argv[0]), strcat(circuit, ".edf");

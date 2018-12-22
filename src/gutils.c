@@ -1,14 +1,13 @@
 /*****************************************************************-*-c-*-*\
 *             *                                                           *
-*   #####     *  (c) Copyright 2000, Giovanni Squillero                   *
+*   #####     *  Copyright (c) 2000 Giovanni Squillero                    *
 *  ######     *  http://staff.polito.it/giovanni.squillero/               *
 *  ###   \    *  giovanni.squillero@polito.it                             *
 *   ##G  c\   *                                                           *
-*   #     _\  *  This code is licensed under a BSD 2-clause license       *
+*   #     _\  *  This code is licensed under a BSD license.               *
 *   |  _/     *  See <https://github.com/squillero/fenice> for details    *
 *             *                                                           *
 \*************************************************************************/
-
 
 char           *_GUTILS_V = "1.0 $Revision: 2.0 $";
 char           *_GUTILS_F = __FILE__;
@@ -26,7 +25,6 @@ char           *_GUTILS_D = __DATE__ " " __TIME__;
 #ifndef __LINUX__
 #include <stdarg.h>
 #endif
-#include <varargs.h>
 #include <sys/types.h>
 #include <sys/time.h>
 

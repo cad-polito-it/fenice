@@ -55,7 +55,7 @@
 #define __DATA2_H
 
 /* OBSOLETE codes DO NOT USE */
-#define MMAND     0     /* codici per la lettura del .DEE */
+#define MMAND     0             /* codici per la lettura del .DEE */
 #define MMNAND    1
 #define MMOR      2
 #define MMNOR     3
@@ -69,18 +69,18 @@
 /* TYPES with LSB==1 are NEGATED (ask corno@polito.it) */
 /* TYPES must be CONSECUTIVE (ask squillero@polito.it) */
 enum {
-    AND = 0,	/* 0 */
-    NAND,	/* 1 */
-    OR,		/* 2 */
-    NOR,	/* 3 */
-    BUF,	/* 4 */
-    NOT,	/* 5 */
-    EXOR,	/* 6 */
-    EXNOR,	/* 7 */
-    LOGIC0,	/* 8 */
-    LOGIC1, 	/* 9 */
-    FF = 10,	/* 10 */
-    CALLBACK	/* 11 */
+    AND = 0,                    /* 0 */
+    NAND,                       /* 1 */
+    OR,                         /* 2 */
+    NOR,                        /* 3 */
+    BUF,                        /* 4 */
+    NOT,                        /* 5 */
+    EXOR,                       /* 6 */
+    EXNOR,                      /* 7 */
+    LOGIC0,                     /* 8 */
+    LOGIC1,                     /* 9 */
+    FF = 10,                    /* 10 */
+    CALLBACK                    /* 11 */
 };
 
 /* Extend FF type */
@@ -105,11 +105,11 @@ enum {
 #define MOZ_VERSION23   23
 
 #define MAX_FILENAME_LEN  80    /* lunghezza massima nome file di input      */
-#define MAX_FANOUT_BRANCH 400    /* massimo fanout consentito nella rete      */
-#define MAX_FANIN      50    /* massimo fanin consentito nella rete       */
+#define MAX_FANOUT_BRANCH 400   /* massimo fanout consentito nella rete      */
+#define MAX_FANIN      50       /* massimo fanin consentito nella rete       */
 #define MAX_LONG   0xffffffff   /* massimo numero intero senza segno su 32
-				 * bit */
-#define MAX_DOUBLE 1.7E+30  /* massimo numero in floating point su 8 byte */
+                                 * bit */
+#define MAX_DOUBLE 1.7E+30      /* massimo numero in floating point su 8 byte */
 #define MAX_LINE      2048
 #define MAX_LEN_ID        80    /* maximum length of an identifier */
 
@@ -128,49 +128,48 @@ enum {
 #endif
 
 /* struttura singolo descrittore */
-typedef struct
-{
-	char	attr;    /* PI, PO, INTERNAL */
-	signed char type;    /* AND NAND .... FF */
-	int	fanin, fanout; /* number of gate inputs/outputs */
-	char	*to_name;	/* name of the output net */
-	int	level;		/* distance from PIs or PPIs */
-	int	*to, *from;	/* pointers to arrays of gate indexes */
-	char        *name;	/* gate instance name */
+typedef struct {
+    char attr;                  /* PI, PO, INTERNAL */
+    signed char type;           /* AND NAND .... FF */
+    int fanin, fanout;          /* number of gate inputs/outputs */
+    char *to_name;              /* name of the output net */
+    int level;                  /* distance from PIs or PPIs */
+    int *to, *from;             /* pointers to arrays of gate indexes */
+    char *name;                 /* gate instance name */
 
-	char	ff_type;	/* FFD   = FF
-				   FFDR  = FF with reset 
-				   FFDP  = FF with preset
-				   FFDRP = FF with reset and preset */
-	int	gate_id;	/* index to a structure describing library */
-}DESCRIPTOR;
+    char ff_type;               /* FFD   = FF
+                                   FFDR  = FF with reset 
+                                   FFDP  = FF with preset
+                                   FFDRP = FF with reset and preset */
+    int gate_id;                /* index to a structure describing library */
+} DESCRIPTOR;
 
 /* prototype della create() */
-int create (char *name) ;
+int create(char *name);
 
-int	get_descr_pos( char *s) ;
+int get_descr_pos(char *s);
 
 /* global variables */
 
-extern int n_descr ;	/* number of gates */
-extern DESCRIPTOR       *descr;       /* gate structures */
+extern int n_descr;             /* number of gates */
+extern DESCRIPTOR *descr;       /* gate structures */
 
-extern int              n_pi;
-extern int              n_po;
-extern int              n_ff;
+extern int n_pi;
+extern int n_po;
+extern int n_ff;
 
-extern int              max_level;
+extern int max_level;
 
-extern int      *pi_array;
-extern int      *po_array;
-extern int      *ppi_array;
-extern int      *ppo_array;
+extern int *pi_array;
+extern int *po_array;
+extern int *ppi_array;
+extern int *ppo_array;
 
-extern int create_silent ;
+extern int create_silent;
 
 /* exported by the create library */
-extern	char	*ResetDescrName;
-extern	char	*PresetDescrName;
-extern  int     ClockDescr;
+extern char *ResetDescrName;
+extern char *PresetDescrName;
+extern int ClockDescr;
 
 #endif

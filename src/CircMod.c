@@ -1,14 +1,13 @@
 /*****************************************************************-*-c-*-*\
 *             *                                                           *
-*   #####     *  (c) Copyright 2000, Giovanni Squillero                   *
+*   #####     *  Copyright (c) 2000 Giovanni Squillero                    *
 *  ######     *  http://staff.polito.it/giovanni.squillero/               *
 *  ###   \    *  giovanni.squillero@polito.it                             *
 *   ##G  c\   *                                                           *
-*   #     _\  *  This code is licensed under a BSD 2-clause license       *
+*   #     _\  *  This code is licensed under a BSD license.               *
 *   |  _/     *  See <https://github.com/squillero/fenice> for details    *
 *             *                                                           *
 \*************************************************************************/
-
 
 #define EDF_VERSION "2.0"
 
@@ -25,18 +24,19 @@
 #ifndef __LINUX__
 #include <stdarg.h>
 #endif
-#include <varargs.h>
 #include <sys/types.h>
 #include <sys/time.h>
 
 #include <create.h>
 #include "Fenice.h"
 #include "SharedVars.h"
-#include "CircuitMod.h"
 
 /*
  * INTERNAL PROTOS
  */
+#define         CircuitMod_BuildArrays() \
+                CircuitMod_BuildFFArray(), CircuitMod_BuildPIArray(), CircuitMod_BuildPOArray()
+
 static void     _internal_RemoveGate(int g);
 static void     _internal_RemoveFromFrom(int gate, int from);
 static void     _internal_RemoveFromTo(int gate, int to);
@@ -63,7 +63,6 @@ static char    *IndentSpaces = "    ";
 void            Indent()
 {
     register int    _r;
-
     if (!IndentLevel)
 	Print(stderr, "\n");
     for (_r = 0; _r < IndentLevel; ++_r)

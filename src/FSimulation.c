@@ -1,14 +1,13 @@
 /*****************************************************************-*-c-*-*\
 *             *                                                           *
-*   #####     *  (c) Copyright 2000, Giovanni Squillero                   *
+*   #####     *  Copyright (c) 2000 Giovanni Squillero                    *
 *  ######     *  http://staff.polito.it/giovanni.squillero/               *
 *  ###   \    *  giovanni.squillero@polito.it                             *
 *   ##G  c\   *                                                           *
-*   #     _\  *  This code is licensed under a BSD 2-clause license       *
+*   #     _\  *  This code is licensed under a BSD license.               *
 *   |  _/     *  See <https://github.com/squillero/fenice> for details    *
 *             *                                                           *
 \*************************************************************************/
-
 
 #include <sys/times.h>
 #include "Fenice.h"
@@ -636,6 +635,7 @@ void            FaultDroppingPO(void)
 
 void            __FaultDroppingPO_1D(void)
 {
+    char           *_FunctionName = "__FaultDroppingPO_1D";
     register int    r;
     register int    r2;
     register unsigned long xoredA;
@@ -647,7 +647,9 @@ void            __FaultDroppingPO_1D(void)
     for (r = 0; r < n_po; ++r) {
 	if (DescrVal[po_array[r]].Id == CurrentId) {
 	    xoredA = DescrVal[po_array[r]].RefValue.A ^ DescrVal[po_array[r]].Value.A;
+#ifdef VALUE_3
 	    xoredB = DescrVal[po_array[r]].RefValue.B ^ DescrVal[po_array[r]].Value.B;
+#endif
 	    for (r2 = 0; r2 < FaultInfo->Jazz; ++r2)
 		if ((xoredA & BIT(r2)) && (xoredB & BIT(r2)))	/* no pot detected */
 		    FaultInfo[r2 + 1].fault->gotcha = CurrIP;

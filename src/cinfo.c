@@ -1,14 +1,13 @@
 /*****************************************************************-*-c-*-*\
 *             *                                                           *
-*   #####     *  (c) Copyright 2000, Giovanni Squillero                   *
+*   #####     *  Copyright (c) 2000 Giovanni Squillero                    *
 *  ######     *  http://staff.polito.it/giovanni.squillero/               *
 *  ###   \    *  giovanni.squillero@polito.it                             *
 *   ##G  c\   *                                                           *
-*   #     _\  *  This code is licensed under a BSD 2-clause license       *
+*   #     _\  *  This code is licensed under a BSD license.               *
 *   |  _/     *  See <https://github.com/squillero/fenice> for details    *
 *             *                                                           *
 \*************************************************************************/
-
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,9 +17,6 @@
 #include <memory.h>
 #include <string.h>
 #include <time.h>
-#include <sys/types.h>
-#include <sys/time.h>
-#include <sys/ddi.h>
 
 #include <Fenice.h>
 #include <CircuitMod.h>
