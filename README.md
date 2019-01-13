@@ -6,7 +6,6 @@ Fenice
 ![Language: C](https://img.shields.io/badge/language-C-blue.svg)
 ![Gate-level: edf](https://img.shields.io/badge/gate--level-edf-8877cc.svg)
 ![Version: 3.65](https://img.shields.io/badge/version-3.65-lightgrey.svg)
-![](https://www.google-analytics.com/collect?v=1&t=pageview&tid=UA-28094298-5&uid=666&dp=squillero%2Ffenice)
 
 A customizable fault-simulation and gate-level editing library for sequential circuits. *Fenice* implements a fault-parallel, event-driven algorithm vaguely based on *PROOFS* by Thomas M. Niermann, Wu-Tung Cheng & Janak H. Patel (DOI: [10.1109/43.124398](http://dx.doi.org/10.1109/43.124398)), with some tricks copied from *HOPE* by Hyung Ki Lee and Dong Sam Ha (DOI: [10.1109/43.536711](http://dx.doi.org/10.1109/43.536711)). 
 
