@@ -2,7 +2,7 @@ Fenice
 ======
 
 [![License: BSD](https://img.shields.io/badge/license-bsd-green.svg)](/LICENSE.md)
-![Status: Unmaintained](https://img.shields.io/badge/status-unmaintained-red.svg)
+![Status: Discontinued](https://img.shields.io/badge/status-discontinued-red.svg)
 ![Language: C](https://img.shields.io/badge/language-C-blue.svg)
 ![Gate-level: edf](https://img.shields.io/badge/gate--level-edf-8877cc.svg)
 ![Version: 3.65](https://img.shields.io/badge/version-3.65-lightgrey.svg)
